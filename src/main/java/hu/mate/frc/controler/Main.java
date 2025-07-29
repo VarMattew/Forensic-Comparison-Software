@@ -23,6 +23,7 @@ public class Main extends Application {
             // Scene létrehozása és hozzáadása a Stage-hez
             primaryStage.setMaximized(true);
             primaryStage.setResizable(false);
+            primaryStage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/hu/mate/frc/view/icons/logo.png")));
 
             // Az ablak megjelenítése
             primaryStage.show();
