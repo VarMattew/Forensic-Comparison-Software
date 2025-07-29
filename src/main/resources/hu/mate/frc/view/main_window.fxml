@@ -20,7 +20,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.35" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="856.0" styleClass="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mate.frc.view.MainWindowController">
+<SplitPane dividerPositions="0.35" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="588.0" prefWidth="856.0" styleClass="root" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.mate.frc.view.MainWindowController">
    <items>
       <VBox prefHeight="694.0" prefWidth="296.0">
          <children>
@@ -53,18 +53,18 @@
                                     <Insets top="5.0" />
                                  </VBox.margin></ComboBox>
                               <Label layoutX="10.0" layoutY="50.0" text="Brightness" />
-                              <Slider fx:id="brightnessSlider" layoutX="10.0" layoutY="53.0" min="-1.0" max="1.0" value="0" onMouseReleased="#onBrightnessChanged" />
+                              <Slider fx:id="brightnessSlider" layoutX="10.0" layoutY="53.0" max="1.0" min="-1.0" onMouseReleased="#onBrightnessChanged" value="0" />
                               <Label layoutX="10.0" layoutY="36.0" text="Contrast" />
-                              <Slider layoutX="10.0" layoutY="53.0" min="0" max="2.0" value="1.0" fx:id="contrastSlider" onMouseReleased="#onContrastChanged"/>
-                              <Label text="Colors" />
-                              <Slider value="50.0" />
-                              <Slider layoutX="10.0" layoutY="36.0" value="50.0" />
-                              <Slider layoutX="10.0" layoutY="50.0" value="50.0" />
+                              <Slider fx:id="contrastSlider" layoutX="10.0" layoutY="53.0" max="2.0" min="0" onMouseReleased="#onContrastChanged" value="1.0" />
+                              <Label text="Hue" />
+                              <Slider fx:id="redSlider" max="1.0" min="-1.0" onMouseReleased="#onRedChanged" styleClass="red-slider" value="0" />
+                              <Slider fx:id="greenSlider" layoutX="10.0" layoutY="36.0" max="1.0" min="-1.0" onMouseReleased="#onGreenChanged" styleClass="green-slider" value="0" />
+                              <Slider fx:id="blueSlider" layoutX="10.0" layoutY="50.0" max="1.0" min="-1.0" onMouseReleased="#onBlueChanged" styleClass="blue-slider" value="0" />
                               <Label layoutX="10.0" layoutY="36.0" text="Saturation" />
-                              <Slider layoutX="10.0" layoutY="64.0" value="50.0" />
-                              <AreaChart prefHeight="246.0" prefWidth="250.0">
+                              <Slider fx:id="saturationSlider" layoutX="10.0" layoutY="64.0" max="2.0" min="0" value="1.0" onMouseReleased="#onSaturationChanged"/>
+                              <AreaChart prefHeight="240.0" prefWidth="250.0">
                                 <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
+                                  <NumberAxis side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis side="LEFT" />

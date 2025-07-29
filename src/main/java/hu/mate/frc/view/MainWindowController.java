@@ -20,18 +20,23 @@ public class MainWindowController {
 
     @FXML
     private Canvas canvas;
-    
     @FXML
     private GraphicsContext gc;
-
     @FXML
     private ComboBox<String> imageSelector;
 
     @FXML
     private Slider brightnessSlider;
-
     @FXML
     private Slider contrastSlider;
+    @FXML
+    private Slider redSlider;
+    @FXML
+    private Slider greenSlider;
+    @FXML
+    private Slider blueSlider;
+    @FXML
+    private Slider saturationSlider;
 
     private ImageModel currentImage;
     
@@ -114,6 +119,38 @@ public class MainWindowController {
     @FXML
     private void onContrastChanged() {
         currentImage.setContrast(contrastSlider.getValue());
+        refreshCanvas();
+    }
+
+    @FXML
+    private void onRedChanged() {
+        if(currentImage == null) return;
+
+        currentImage.setRed(redSlider.getValue());
+        refreshCanvas();
+    }
+
+    @FXML
+    private void onGreenChanged() {
+        if(currentImage == null) return;
+
+        currentImage.setGreen(greenSlider.getValue());
+        refreshCanvas();
+    }
+
+    @FXML
+    private void onBlueChanged() {
+        if(currentImage == null) return;
+
+        currentImage.setBlue(blueSlider.getValue());
+        refreshCanvas();
+    }
+
+    @FXML
+    private void onSaturationChanged() {
+        if(currentImage == null) return;
+
+        currentImage.setSaturation(saturationSlider.getValue());
         refreshCanvas();
     }
 

@@ -1,0 +1,20 @@
+.red-slider .track {
+    -fx-background-color: linear-gradient(to right, white, red);
+    -fx-border-color: grey;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.green-slider .track {
+    -fx-background-color: linear-gradient(to right, white, green);
+    -fx-border-color: grey;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.blue-slider .track {
+    -fx-background-color: linear-gradient(to right, white, blue);
+    -fx-border-color: grey;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
