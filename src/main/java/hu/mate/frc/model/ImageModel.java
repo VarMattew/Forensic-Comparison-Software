@@ -1,7 +1,10 @@
 package hu.mate.frc.model;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
@@ -10,7 +13,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 public class ImageModel {
-    
+
     private final File sourceFile;
     private String displayName;
 
@@ -29,7 +32,6 @@ public class ImageModel {
         this.width = (int) originalImage.getWidth();
         this.height = (int) originalImage.getHeight();
 
-        
         PixelReader pixelReader = originalImage.getPixelReader();
         this.editableImage = new WritableImage(pixelReader, width, height);
     }
@@ -82,7 +84,7 @@ public class ImageModel {
                 pixelWriter.setColor(x, y, newColor);
             }
         }
-        
+
         System.out.println("Brightness set by: " + adjustment);
     }
 
@@ -120,9 +122,10 @@ public class ImageModel {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Color originalColor = pixelReader.getColor(x, y);
+                Color editableColor = editableImage.getPixelReader().getColor(x, y);
                 double newRed = originalColor.getRed() + adjustment;
                 newRed = Math.max(0, Math.min(1, newRed));
-                Color newColor = new Color(newRed, originalColor.getGreen(), originalColor.getBlue(), originalColor.getOpacity());
+                Color newColor = new Color(newRed, editableColor.getGreen(), editableColor.getBlue(), editableColor.getOpacity());
                 pixelWriter.setColor(x, y, newColor);
             }
         }
@@ -136,9 +139,10 @@ public class ImageModel {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Color originalColor = pixelReader.getColor(x, y);
+                Color editableColor = editableImage.getPixelReader().getColor(x, y);
                 double newGreen = originalColor.getGreen() + adjustment;
                 newGreen = Math.max(0, Math.min(1, newGreen));
-                Color newColor = new Color(originalColor.getRed(), newGreen, originalColor.getBlue(), originalColor.getOpacity());
+                Color newColor = new Color(editableColor.getRed(), newGreen, editableColor.getBlue(), editableColor.getOpacity());
                 pixelWriter.setColor(x, y, newColor);
             }
         }
@@ -152,9 +156,10 @@ public class ImageModel {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Color originalColor = pixelReader.getColor(x, y);
+                Color editableColor = editableImage.getPixelReader().getColor(x, y);
                 double newBlue = originalColor.getBlue() + adjustment;
                 newBlue = Math.max(0, Math.min(1, newBlue));
-                Color newColor = new Color(originalColor.getRed(), originalColor.getGreen(), newBlue, originalColor.getOpacity());
+                Color newColor = new Color(editableColor.getRed(), editableColor.getGreen(), newBlue, editableColor.getOpacity());
                 pixelWriter.setColor(x, y, newColor);
             }
         }
@@ -169,7 +174,7 @@ public class ImageModel {
             for (int x = 0; x < width; x++) {
                 Color originalColor = pixelReader.getColor(x, y);
                 double luminance = 0.299 * originalColor.getRed() + 0.587 * originalColor.getGreen() + 0.114 * originalColor.getBlue();
-                
+
                 double newRed = luminance + (originalColor.getRed() - luminance) * adjustment;
                 double newGreen = luminance + (originalColor.getGreen() - luminance) * adjustment;
                 double newBlue = luminance + (originalColor.getBlue() - luminance) * adjustment;
@@ -183,5 +188,49 @@ public class ImageModel {
             }
         }
         System.out.println("Saturation set by: " + adjustment);
+    }
+    
+    public List<int[]> updateHistogram() {
+        int[] redCounts = new int[256];
+        int[] greenCounts = new int[256];
+        int[] blueCounts = new int[256];
+
+        PixelReader pixelReader = editableImage.getPixelReader();
+        for (int y = 0; y < editableImage.getHeight(); y++) {
+            for (int x = 0; x < editableImage.getWidth(); x++) {
+                Color color = pixelReader.getColor(x, y);
+                redCounts[(int) (color.getRed() * 255)]++;
+                greenCounts[(int) (color.getGreen() * 255)]++;
+                blueCounts[(int) (color.getBlue() * 255)]++;
+            }
+        }
+        List<int[]> histogram = new ArrayList<>();
+        histogram.add(redCounts);
+        histogram.add(greenCounts);
+        histogram.add(blueCounts);
+        return histogram;
+    }
+
+    public void saveToFile(File destinationFile) {
+        try {
+            BufferedImage bufferedImage = javafx.embed.swing.SwingFXUtils.fromFXImage(editableImage, null);
+
+            javax.imageio.ImageIO.write(bufferedImage, getFileExtension(destinationFile), destinationFile);
+
+            System.out.println("Image saved to: " + destinationFile.getAbsolutePath());
+        } catch (Exception e) {
+            System.err.println("Failed to save image: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private String getFileExtension(File file) {
+        String fileName = file.getName();
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex > 0 && lastDotIndex < fileName.length() - 1) {
+            return fileName.substring(lastDotIndex + 1).toLowerCase();
+        }
+        // Ha nincs kiterjesztés, legyen a PNG az alapértelmezett.
+        return "png";
     }
 }

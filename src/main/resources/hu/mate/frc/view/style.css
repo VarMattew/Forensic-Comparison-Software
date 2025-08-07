@@ -18,3 +18,23 @@
     -fx-border-width: 1px;
     -fx-border-radius: 5px;
 }
+
+.chart-series-area-line {    
+    -fx-stroke-width: 0px;
+    -fx-effect: null;
+}
+
+.default-color0.chart-series-area-fill {
+    -fx-fill: rgba(255, 0, 0, 0.2);
+    -fx-stroke: rgb(255, 0, 0);
+}
+
+.default-color1.chart-series-area-fill {
+    -fx-fill: rgba(0, 128, 0, 0.2); 
+    -fx-stroke: rgb(0, 172, 51);
+}
+
+.default-color2.chart-series-area-fill {
+    -fx-fill: rgba(0, 0, 255, 0.2); 
+    -fx-stroke: rgb(0, 0, 255); 
+}
